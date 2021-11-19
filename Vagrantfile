@@ -5,13 +5,6 @@ ENV["LC_ALL"] = "en_US.UTF-8"
 
 
 Vagrant.configure(2) do |config|
-  # образ системы Ubuntu 18/04 LTS (Bionic Beaver)
-#  server.vm.box = "vedoff/centos-7-5"
-  # не проверять репозиторий на наличие обновлений
-#  config.vm.box_check_update = false
-  # отменить создание ssh-ключа
-#  config.ssh.insert_key = false
-
   # ПЕРВАЯ ВИРТУАЛЬНАЯ МАШИНА
     config.vm.define "nfs-server" do |server|
     # имя виртуальной машины
@@ -28,26 +21,14 @@ Vagrant.configure(2) do |config|
           rsync_auto: "true",
           rsync_exclude: [".git/",".vagrant/",".gitignore","Vagrantfile"]
           server.vm.provision "shell", path: "provision-server/nfs-server.sh"
-    # установка пакетов
-#    subconfig.vm.provision "apache", type: "shell", inline: "apt-get install -y apache2"
-#
-#    subconfig.vm.provision "shell", inline: <<-SHELL
-#          sh /provision-client/nfs-client.sh
-#      SHELL
-   end
+    end
 end
 
 
 
 Vagrant.configure(2) do |client|
-  # образ системы Ubuntu 18/04 LTS (Bionic Beaver)
   client.vm.box = "vedoff/centos-7-5"
-  # не проверять репозиторий на наличие обновлений
-#  config.vm.box_check_update = false
-  # отменить создание ssh-ключа
-#  config.ssh.insert_key = false
-
-  # ПЕРВАЯ ВИРТУАЛЬНАЯ МАШИНА
+  # ВТОРАЯ ВИРТУАЛЬНАЯ МАШИНА
     client.vm.define "nfs-client" do |client|
     # имя виртуальной машины
     client.vm.box = 'vedoff/centos-7-5'
@@ -63,12 +44,5 @@ Vagrant.configure(2) do |client|
           rsync_auto: "true",
           rsync_exclude: [".git/",".vagrant/",".gitignore","Vagrantfile"]
           client.vm.provision "shell", path: "provision-client/nfs-client.sh"
-    # установка пакетов
-#    subconfig.vm.provision "apache", type: "shell", inline: "apt-get install -y apache2"
-#
-#    subconfig.vm.provision "shell", inline: <<-SHELL
-#          sh /provision-client/nfs-client.sh
-#      SHELL
+    end
 end
-end
-#end
