@@ -24,18 +24,9 @@ sudo mkdir -p /share-data/
 #=== Создаем пользователя для nfs
  
 sudo groupadd nfs -g 1100
-
 sudo useradd -u 1100 -g 1100 -m -s /bin/bash nfsuser
-
 sudo chown :nfs /share-data/ && sudo chmod g+w /share-data/
-
 sudo mount -t nfs -o vers=3 192.168.56.100:/share-data/upload/ /share-data
-
-sudo chmod o+w /etc/fstab
-
 sudo echo "192.168.56.100:/share-data/upload/ /share-data/ nfs vers=3,rw,sync,hard,intr 0 0" >> /etc/fstab 
-
-sudo chmod o+w /etc/fstab
-
 df -h
 
