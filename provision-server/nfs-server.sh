@@ -41,20 +41,15 @@ sudo mkdir -p /share-data/upload
 #sudo chmod o-w /etc/fstab
 #sudo mount -a
 #sudo mkdir -p /share-data/upload
+
 #=== Создаем пользователя для nfs
  
 sudo groupadd nfs -g 1100
-
 sudo useradd -u 1100 -g 1100 -m -s /bin/bash nfsuser
-
 sudo chown :nfs /share-data/upload && sudo chmod g+w /share-data/upload
-
 sudo echo ""/share-data/upload" 192.168.56.101(rw,sync,no_root_squash,no_all_squash,anonuid=1100,anongid=1100)" >> /etc/exports
-
 sudo exportfs -ra
-
 sudo systemctl restart nfs-server
-
 sudo showmount -e
 
 
